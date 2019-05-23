@@ -20,16 +20,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(MainActivity.this, "1", 1).show();
+//                Toast.makeText(MainActivity.this, "1", 1).show();
 
                 Class router = Router.getInstance().findClassByRouter("5119/A1");
 
                 if (router == null) {
                     return;
                 }
-
-
-                Toast.makeText(MainActivity.this, "2", 1).show();
+//                Toast.makeText(MainActivity.this, "2", 1).show();
             }
         });
 
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             InterA o = (InterA) Class.forName("com.sum.apirouter.api.impl.ImplA2").newInstance();
             o.read();
-            Toast.makeText(MainActivity.this, o.read(), 0).show();
+            Toast.makeText(MainActivity.this, o.read(), Toast.LENGTH_SHORT).show();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

@@ -39,8 +39,12 @@ abstract class BaseProcessor extends AbstractProcessor {
 
 
     void print(Object o) {
-        System.out.println(o);
+//        System.out.println(o);
         messager.printMessage(Diagnostic.Kind.NOTE, o.toString());
+    }
+
+    void printError(Object o) {
+        messager.printMessage(Diagnostic.Kind.ERROR, o.toString());
     }
 
     @Override

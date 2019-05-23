@@ -6,8 +6,8 @@ import com.sum.router.annotation.ApiRouter;
 /**
  * Created by sdl on 2019-05-22.
  */
-@ApiRouter("/m5119/A1")
-public class ImplA1 implements InterA {
+@ApiRouter("/m5119/A3")
+public class ImplA3 implements InterA {
     @Override
     public void fun1() {
         System.out.println("ImplA1 fun1");

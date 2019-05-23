@@ -4,16 +4,18 @@ import com.google.auto.service.AutoService;
 import com.sum.router.annotation.ApiRouter;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
 
@@ -25,7 +27,7 @@ import javax.tools.JavaFileObject;
 public class ApiProcessor extends BaseProcessor {
 
     //包名
-    private static final String PACKAGE_NAME = "com.sum.router.map.processor";
+    private static final String PACKAGE_NAME = "com.sum.router.processor";
     private static final String CLASS_NAME = "RouterMapImpl";
 
 
@@ -37,143 +39,125 @@ public class ApiProcessor extends BaseProcessor {
     }
 
     @Override
-    public synchronized void init(ProcessingEnvironment env) {
-        super.init(env);
-        print(" ApiProcessor init ---------------------- ");
-    }
-
-    @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-//        if (!annotations.isEmpty()) {
-//            try {
-//                print("process start ---------------------- " + annotations.size());
-//
-//                //获取所有注解的类
-//                Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(ApiRouter.class);
-//
-//                print("process: " + elements.size());
-//
-//                HashMap<String, String> map = new HashMap<>();
-//
-//                String pack = null;
-//                String module;
-//
-//                for (Element element : elements) {
-//                    TypeElement typeElement = (TypeElement) element;
-//
-//                    String name = typeElement.getQualifiedName().toString();
-//                    print("find name->" + name);
-//
-//                    ApiRouter annotation = typeElement.getAnnotation(ApiRouter.class);
-//                    module = annotation.value();
-//                    if (module.equals("")) {
-//                        return false;
-//                    }
-//                    if (map.containsKey(module)) {
-//                        return false;
-//                    }
-//                    //添加key和java的文件路径
-//                    map.put(module, name);
-//                    if (pack == null) {
-//                        pack = elementUtils.getPackageOf(element).getEnclosingElement().toString();
-//                        print("get pack:" + pack);
-//                    }
-//                    //生成java文件
-//                    createJavaFile(map, pack, module);
-//                }
-//                print("process end ---------------------- ");
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                print(e);
-//            }
-//            return true;
-//        }
+        print("process start");
+        //annotations记录了getSupportedAnnotationTypes中的注解类型
+        if (!annotations.isEmpty()) {
+            try {
+                //获取所有注解的类
+                Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(ApiRouter.class);
 
-        Set<? extends Element> routeElements = roundEnv.getElementsAnnotatedWith(ApiRouter.class);
-        generatedClass(routeElements);
-        print("process error ---------------------- ");
+                print("ApiRouter elements size: " + elements.size());
+
+
+                HashMap<String, HashMap<String, String>> moduleMap = new HashMap<>();
+
+                //添加多个类型模块
+                for (Element element : elements) {
+                    if (element.getKind() != ElementKind.CLASS) {
+                        continue;
+                    }
+                    TypeElement typeElement = (TypeElement) element;
+                    ApiRouter annotation = typeElement.getAnnotation(ApiRouter.class);
+                    String value = annotation.value();
+                    String module = checkAnnotation(value);
+                    if (module == null) {
+                        continue;
+                    }
+                    //添加一组类型的map
+                    if (!moduleMap.containsKey(module)) {
+                        moduleMap.put(module, new HashMap<String, String>());
+                    }
+                }
+
+                //给module添加类的路径
+                for (Element element : elements) {
+                    if (element.getKind() != ElementKind.CLASS) {
+                        continue;
+                    }
+                    TypeElement typeElement = (TypeElement) element;
+                    //class类的路径
+                    String classPath = typeElement.getQualifiedName().toString();
+
+                    ApiRouter annotation = typeElement.getAnnotation(ApiRouter.class);
+                    String value = annotation.value();
+                    String module = checkAnnotation(value);
+                    if (module == null) {
+                        return false;
+                    }
+                    HashMap<String, String> map = moduleMap.get(module);
+                    if (map.containsKey(value)) {
+                        printError("exit same value !!! ->" + value);
+                        return false;
+                    }
+                    print("class path->" + classPath + " ,className->" + typeElement.getSimpleName() + " ,module:" + module);
+                    //添加key和java的文件路径
+                    map.put(value, classPath);
+                }
+                //生成多个class类
+                for (Map.Entry<String, HashMap<String, String>> mapEntry : moduleMap.entrySet()) {
+                    //生成java文件
+                    createJavaFile(mapEntry.getValue(), mapEntry.getKey());
+                }
+                print("process end !! create class size:" + moduleMap.size());
+            } catch (Exception e) {
+                e.printStackTrace();
+                printError(e);
+            }
+            return true;
+        }
+        print("process error !! annotations is empty");
         return true;
     }
 
-    private void createJavaFile(HashMap<String, String> map, String pack, String moudle) {
+    // eg: /main111/login
+    private String checkAnnotation(String value) {
+        Pattern pattern = Pattern.compile("/([a-z|_|[0-9]]{3,50})/([a-z|A-Z|_|[0-9]]{1,50})");
+        Matcher matcher = pattern.matcher(value);
+        if (matcher.matches()) {
+            return matcher.group(1);
+        }
+        printError("router value not match \"/([a-z|_|[0-9]]{3,50})/([a-z|A-Z|_|[0-9]]{1,50})\") eg:/main1/login ");
+        return null;
+    }
+
+    //创建文件
+    private void createJavaFile(HashMap<String, String> map, String moudle) {
         if (map.isEmpty()) {
             return;
         }
-        print("createJavaFile:" + map.size());
-        String file = PACKAGE_NAME + "." + CLASS_NAME + "$" + moudle;
+        print("createJavaFile start ->" + moudle + " ,router size:" + map.size());
+        String className = CLASS_NAME + "$" + moudle;
+        String file = PACKAGE_NAME + "." + className;
         try {
             JavaFileObject jfo = filer.createSourceFile(file);
             Writer writer = jfo.openWriter();
-            writer.write(code(file));
+            writer.write(code(className, map));
             writer.flush();
             writer.close();
+            print("createJavaFile finish -> " + file);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private String code(String file) {
+    private String code(String className, HashMap<String, String> classPath) {
         StringBuilder sb = new StringBuilder();
-        sb.append("package com.enjoy.router;\n");
-        sb.append("import java.util.Map;\n");
+        sb.append("package " + PACKAGE_NAME + ";\n");
+        sb.append("import java.util.HashMap;\n");
+        sb.append("import com.sum.router.api.IRouterMap;\n");
         //类
-        sb.append("public class ");
-        sb.append(file);
-        sb.append("{\n");
+        sb.append("public class ").append(className).append(" implements IRouterMap { \n\n");
+        sb.append("private static HashMap<String,String> routers=new HashMap<String,String>();\n\n");
+        sb.append("static {\n");
+        for (Map.Entry<String, String> entry : classPath.entrySet()) {
+            sb.append("routers.put(\"" + entry.getKey() + "\",\"" + entry.getValue() + "\");\n");
+        }
+        sb.append("}\n");
+        sb.append("public String getFilePathByTag(String tag){\n\n");
+        sb.append("return routers.get(tag);\n\n");
         sb.append("}\n");
         sb.append("}");
         return sb.toString();
     }
-
-
-    private void generatedClass(Set<? extends Element> routeElements) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("package com.enjoy.router;\n");
-        sb.append("import android.app.Activity;\n");
-        sb.append("import java.util.Map;\n");
-        //导入 WMActivity、FoodActivity
-        for (Element element : routeElements) {
-            TypeElement typeElement = (TypeElement) element;
-            sb.append("import ");
-            sb.append(typeElement.getQualifiedName());
-            sb.append(";\n");
-        }
-
-        //类
-        sb.append("public class ");
-        sb.append(moduleName);
-        sb.append("_Route {\n");
-        sb.append("\n");
-        sb.append("public void onLoad(Map<String, Class<? extends Activity>> routes){\n");
-
-
-        for (Element element : routeElements) {
-            //获得注解
-            ApiRouter route = element.getAnnotation(ApiRouter.class);
-            //函数体 paths.put(xx,xx.class)
-            sb.append("routes.put(\"");
-            sb.append(route.value());
-            sb.append("\",");
-            sb.append(element.getSimpleName());
-            sb.append(".class);\n");
-        }
-        sb.append("}\n");
-        sb.append("}");
-        try {
-            //创建 Java文件
-            JavaFileObject sourceFile = filer.createSourceFile("com.enjoy.router." + moduleName +
-                    "_Route");
-            //输出字符串
-            OutputStream outputStream = sourceFile.openOutputStream();
-            outputStream.write(sb.toString().getBytes());
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }

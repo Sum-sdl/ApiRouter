@@ -8,7 +8,7 @@ import java.util.HashMap;
  */
 public class Router {
 
-    private static String RootPath = "com.sum.router.map.processor.RouterMapImpl$";
+    private static String RootPath = "com.sum.router.processor.RouterMapImpl$";
 
     private HashMap<String, Class<?>> classHashMap = new HashMap<>();
 
@@ -21,15 +21,18 @@ public class Router {
         return router;
     }
 
+    //根据module+tag查找对应的class路径
     public Class findClassByRouter(String tag) {
         if (tag == null || tag.equals("")) {
             return null;
         }
-        if (classHashMap.containsKey(tag)) {
-            return classHashMap.get(tag);
+        //module定义了管理路径的类的名称
+        String module = tag.split("/")[1];
+        if (classHashMap.containsKey(module)) {
+            return classHashMap.get(module);
         } else {
             try {
-                IRouterMap route = (IRouterMap) Class.forName(RootPath + tag).getConstructor().newInstance();
+                IRouterMap route = (IRouterMap) Class.forName(RootPath + module).getConstructor().newInstance();
                 String filePath = route.getFilePathByTag(tag);
                 Class<?> aClass = Class.forName(filePath);
                 classHashMap.put(tag, aClass);
