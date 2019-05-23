@@ -142,22 +142,22 @@ public class ApiProcessor extends BaseProcessor {
     }
 
     private String code(String className, HashMap<String, String> classPath) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("package " + PACKAGE_NAME + ";\n");
-        sb.append("import java.util.HashMap;\n");
-        sb.append("import com.sum.router.api.IRouterMap;\n");
+        StringBuilder code = new StringBuilder();
+        code.append("package " + PACKAGE_NAME + ";\n");
+        code.append("import java.util.HashMap;\n");
+        code.append("import com.sum.router.api.IRouterMap;\n");
         //类
-        sb.append("public class ").append(className).append(" implements IRouterMap { \n\n");
-        sb.append("private static HashMap<String,String> routers=new HashMap<String,String>();\n\n");
-        sb.append("static {\n");
+        code.append("public class ").append(className).append(" implements IRouterMap { \n\n");
+        code.append("private static HashMap<String,String> routers=new HashMap<String,String>();\n\n");
+        code.append("static {\n");
         for (Map.Entry<String, String> entry : classPath.entrySet()) {
-            sb.append("routers.put(\"" + entry.getKey() + "\",\"" + entry.getValue() + "\");\n");
+            code.append("routers.put(\"").append(entry.getKey()).append("\",\"").append(entry.getValue()).append("\");\n");
         }
-        sb.append("}\n");
-        sb.append("public String getFilePathByTag(String tag){\n\n");
-        sb.append("return routers.get(tag);\n\n");
-        sb.append("}\n");
-        sb.append("}");
-        return sb.toString();
+        code.append("}\n");
+        code.append("public String getFilePathByTag(String tag){\n");
+        code.append("return routers.get(tag);\n");
+        code.append("}\n");
+        code.append("}");
+        return code.toString();
     }
 }

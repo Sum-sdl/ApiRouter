@@ -10,7 +10,7 @@ import com.sum.router.annotation.ApiRouter;
 public class ImplA4 implements InterA {
     @Override
     public void fun1() {
-        System.out.println("ImplA1 fun1");
+        System.out.println("ImplA1 fun1 " + this.getClass().getSimpleName() + " ," + this.toString());
     }
 
     @Override

@@ -8,9 +8,10 @@ import java.util.HashMap;
  */
 public class Router {
 
-    private static String RootPath = "com.sum.router.processor.RouterMapImpl$";
+    private static final String RootPath = "com.sum.router.processor.RouterMapImpl$";
 
     private HashMap<String, Class<?>> classHashMap = new HashMap<>();
+    private HashMap<String, Object> implHashMap = new HashMap<>();
 
     private Router() {
     }
@@ -46,6 +47,26 @@ public class Router {
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public <T> T findApiImpl(String tag) {
+        if (implHashMap.containsKey(tag)) {
+            return (T) implHashMap.get(tag);
+        } else {
+            Class targetApiImpl = findClassByRouter(tag);
+            try {
+                if (targetApiImpl != null) {
+                    Object o = targetApiImpl.newInstance();
+                    implHashMap.put(tag, o);
+                    return (T) o;
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
                 e.printStackTrace();
             }
         }

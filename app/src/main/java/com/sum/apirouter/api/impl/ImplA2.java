@@ -7,10 +7,10 @@ import com.sum.router.annotation.ApiRouter;
  * Created by sdl on 2019-05-22.
  */
 @ApiRouter("/m960x/A2")
-class ImplA2 implements InterA {
+public class ImplA2 implements InterA {
     @Override
     public void fun1() {
-        System.out.println("ImplA2 fun1 ----");
+        System.out.println("ImplA2 fun1 ----"+" ,"+this.toString());
     }
 
     @Override

@@ -7,11 +7,11 @@
 	android:layout_height="match_parent"
 	tools:context=".MainActivity">
 
-	<TextView
+	<Button
 		android:id="@+id/tv1"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Hello World!"
+		android:text="Find Class"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
@@ -19,8 +19,31 @@
 
 	<Button
 		android:id="@+id/bt1"
-		android:text="反射Package类"
+		android:text="启动Shop界面"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" />
 
+	<Button
+		android:id="@+id/bt3"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Api接口测试" />
+
+	<Button
+		android:id="@+id/bt31"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Api接口测试2" />
+
+	<Button
+		android:id="@+id/bt32"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Api接口null" />
+
+	<Button
+		android:id="@+id/bt2"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="反射Package类" />
 </LinearLayout>
