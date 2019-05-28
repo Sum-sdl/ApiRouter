@@ -39,18 +39,11 @@ public class Router {
                 classHashMap.put(tag, aClass);
                 return aClass;
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+                throw new RuntimeException("cannot find class " + (RootPath + module));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
-        return null;
     }
 
     public <T> T findApiImpl(String tag) {

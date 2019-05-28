@@ -1,5 +1,6 @@
 package com.sum.apirouter;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.tv1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                Toast.makeText(MainActivity.this, "1", 1).show();
 
                 Class router = Router.getInstance().findClassByRouter("/m5119/A3");
 
@@ -65,22 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-    }
-
-    private void test1() {
-        //package可见，不能方法
-        try {
-            InterA o = (InterA) Class.forName("com.sum.apirouter.api.impl.ImplA2").newInstance();
-            o.read();
-            Toast.makeText(MainActivity.this, o.read(), Toast.LENGTH_SHORT).show();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     private void test3() {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:orientation="vertical"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -11,15 +10,11 @@
 		android:id="@+id/tv1"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Find Class"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		android:text="Router Find Class" />
 
 	<Button
 		android:id="@+id/bt1"
-		android:text="启动Shop界面"
+		android:text="Router 启动Shop界面"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" />
 
@@ -27,7 +22,7 @@
 		android:id="@+id/bt3"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Api接口测试" />
+		android:text="Router 获取Api接口实现" />
 
 	<Button
 		android:id="@+id/bt31"
@@ -39,11 +34,6 @@
 		android:id="@+id/bt32"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Api接口null" />
+		android:text="Api接口null Throw Error" />
 
-	<Button
-		android:id="@+id/bt2"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="反射Package类" />
 </LinearLayout>
