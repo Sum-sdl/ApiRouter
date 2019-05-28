@@ -1,8 +1,20 @@
 apply plugin: 'java-library'
 
+ext {
+    bintrayName = 'router-annotation'
+    artifact = bintrayName
+    libraryName = 'Router annotation'
+    libraryDescription = 'A annotation for Router to find class path'
+    libraryVersion = arouter_annotation_version
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+
+apply from: '../up_install.gradle'
+apply from: '../up_bintray.gradle'

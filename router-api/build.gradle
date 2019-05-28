@@ -1,9 +1,21 @@
 apply plugin: 'java-library'
 
+ext {
+    bintrayName = 'router-api'
+    artifact = bintrayName
+    libraryName = 'Router api'
+    libraryDescription = ''
+    libraryVersion = arouter_api_version
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':router-annotation')
+//    api 'com.github.Sum-sdl:router-annotation:1.0.0'
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+apply from: '../up_install.gradle'
+apply from: '../up_bintray.gradle'
