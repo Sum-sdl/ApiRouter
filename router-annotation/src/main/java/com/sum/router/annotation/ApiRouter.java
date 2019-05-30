@@ -6,13 +6,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 定义接口实现类的标识
+ * 定义路由类的唯一标识
+ * <p>
+ * eg: '/main/page1'
+ * 必须以'/'开头，第一字符串必须是字母开头
+ * error: '/1main/1page2'
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
 public @interface ApiRouter {
     /**
-     * @return 接口实现类的唯一标识
+     * @return 类的唯一标识
      */
     String value();
 }

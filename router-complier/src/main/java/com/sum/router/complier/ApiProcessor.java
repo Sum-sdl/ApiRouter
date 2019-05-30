@@ -154,7 +154,7 @@ public class ApiProcessor extends BaseProcessor {
             code.append("routers.put(\"").append(entry.getKey()).append("\",\"").append(entry.getValue()).append("\");\n");
         }
         code.append("}\n");
-        code.append("public String getFilePathByTag(String tag){\n");
+        code.append("public String getClassPathByTag(String tag){\n");
         code.append("return routers.get(tag);\n");
         code.append("}\n");
         code.append("}");

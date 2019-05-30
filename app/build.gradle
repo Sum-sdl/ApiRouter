@@ -40,6 +40,8 @@ dependencies {
 
     implementation project(':router-api')
     annotationProcessor project(':router-complier')
-
+//
+//    implementation 'com.github.Sum-sdl:router-api:1.0.0'
+//    annotationProcessor 'com.github.Sum-sdl:router-complier:1.0.0'
 
 }

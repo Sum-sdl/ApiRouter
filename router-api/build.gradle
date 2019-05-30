@@ -10,8 +10,8 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':router-annotation')
-//    api 'com.github.Sum-sdl:router-annotation:1.0.0'
+//    api project(':router-annotation')
+    api 'com.github.Sum-sdl:router-annotation:1.0.0'
 }
 
 sourceCompatibility = "1.7"

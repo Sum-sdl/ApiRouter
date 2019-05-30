@@ -1,6 +1,5 @@
 package com.sum.router.api;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 /**
@@ -8,6 +7,7 @@ import java.util.HashMap;
  */
 public class Router {
 
+    //统一的文件路径
     private static final String RootPath = "com.sum.router.processor.RouterMapImpl$";
 
     private HashMap<String, Class<?>> classHashMap = new HashMap<>();
@@ -22,7 +22,15 @@ public class Router {
         return router;
     }
 
-    //根据module+tag查找对应的class路径
+    /**
+     * 根据module+tag查找对应的class路径
+     * <p>
+     * eg: @ApiRouter("/home/page1")
+     * 表示：home模块的管理类和page1的具体类
+     *
+     * @param tag 目标类的唯一标识
+     * @return 目标类不存在返回null
+     */
     public Class findClassByRouter(String tag) {
         if (tag == null || tag.equals("")) {
             return null;
@@ -34,18 +42,26 @@ public class Router {
         } else {
             try {
                 IRouterMap route = (IRouterMap) Class.forName(RootPath + module).getConstructor().newInstance();
-                String filePath = route.getFilePathByTag(tag);
+                String filePath = route.getClassPathByTag(tag);
                 Class<?> aClass = Class.forName(filePath);
                 classHashMap.put(tag, aClass);
                 return aClass;
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException("cannot find class " + (RootPath + module));
+                e.printStackTrace();
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
+            return null;
         }
     }
 
+    /**
+     * 接口实现类必须无参构造
+     *
+     * @param tag API接口实现类的唯一标识
+     * @param <T> 泛型
+     * @return 存在返回实现类实例，不存在返回null
+     */
     public <T> T findApiImpl(String tag) {
         if (implHashMap.containsKey(tag)) {
             return (T) implHashMap.get(tag);
@@ -66,4 +82,11 @@ public class Router {
         return null;
     }
 
+    /**
+     * @param tag API接口实现类的标识
+     * @return 被移除的对象实例
+     */
+    public Object removeApiImpl(String tag) {
+        return implHashMap.remove(tag);
+    }
 }

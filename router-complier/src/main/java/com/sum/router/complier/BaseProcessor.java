@@ -21,7 +21,6 @@ abstract class BaseProcessor extends AbstractProcessor {
     Filer filer;
     Types typeUtils;
     private Messager messager;
-    String moduleName;
 
 
     @Override
@@ -32,14 +31,12 @@ abstract class BaseProcessor extends AbstractProcessor {
         typeUtils = env.getTypeUtils();
         messager = env.getMessager();
         // Attempt to get user configuration [moduleName]
-        Map<String, String> options = processingEnv.getOptions();
-        moduleName = options.get("MODULE_NAME");
-        print(getClass().getSimpleName() + " init:" + moduleName);
+//        Map<String, String> options = processingEnv.getOptions();
+        print(getClass().getSimpleName());
     }
 
 
     void print(Object o) {
-//        System.out.println(o);
         messager.printMessage(Diagnostic.Kind.NOTE, o.toString());
     }
 
