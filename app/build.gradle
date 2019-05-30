@@ -38,10 +38,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation project(':router-api')
-    annotationProcessor project(':router-complier')
+//    implementation project(':router-api')
+//    annotationProcessor project(':router-complier')
 //
-//    implementation 'com.github.Sum-sdl:router-api:1.0.0'
-//    annotationProcessor 'com.github.Sum-sdl:router-complier:1.0.0'
+    implementation 'com.github.Sum-sdl:router-api:1.0.1'
+    annotationProcessor 'com.github.Sum-sdl:router-complier:1.0.1'
 
 }

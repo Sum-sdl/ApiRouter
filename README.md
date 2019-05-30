@@ -1,10 +1,17 @@
 # ApiRouter
 接口与实现隔离依赖，根据路由字符串查找目标Class
 
-打包
-gradle clean assembleDebug
+[使用Demo](https://github.com/Sum-sdl/ApiRouter/blob/master/app/src/main/java/com/sum/apirouter/MainActivity.java)
 
 
+## Dependency
+
+ ```gradle
+    dependencies {
+            implementation 'com.github.Sum-sdl:router-api:1.0.1'
+            annotationProcessor 'com.github.Sum-sdl:router-complier:1.0.1'
+     }
+ ```
 
 ## APT版本兼容的问题
 
