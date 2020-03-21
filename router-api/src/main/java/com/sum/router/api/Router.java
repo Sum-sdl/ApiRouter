@@ -3,13 +3,14 @@ package com.sum.router.api;
 import java.util.HashMap;
 
 /**
- * 全局路由管理类
+ * 全局路由管理类,根据指定名称找到对应Class
  */
 public class Router {
 
     //统一的文件路径
     private static final String RootPath = "com.sum.router.processor.RouterMapImpl$";
 
+    //class集合类,一般是Activity
     private HashMap<String, Class<?>> classHashMap = new HashMap<>();
     private HashMap<String, Object> implHashMap = new HashMap<>();
 
@@ -53,6 +54,17 @@ public class Router {
             }
             return null;
         }
+    }
+
+    /**
+     * 接口实现类必须无参构造
+     *
+     * @param classOfT API接口类
+     * @param <T>      泛型
+     * @return 存在返回实现类实例，不存在返回null
+     */
+    public <T> T findApiImpl(Class classOfT) {
+        return findApiImpl(classOfT.getName());
     }
 
     /**

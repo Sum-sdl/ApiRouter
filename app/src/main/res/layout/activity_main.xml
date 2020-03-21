@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".MainActivity">
+	android:orientation="vertical">
 
-	<Button
-		android:id="@+id/tv1"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Router Find Class" />
+    <Button
+        android:id="@+id/bt1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Router 找 class" />
 
-	<Button
-		android:id="@+id/bt1"
-		android:text="Router 启动Shop界面"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Router 启动Login模块" />
 
-	<Button
-		android:id="@+id/bt3"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Router 获取Api接口实现" />
+    <Button
+        android:id="@+id/bt3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Router 获取Api接口默认实现" />
 
-	<Button
-		android:id="@+id/bt31"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Api接口测试2" />
+    <Button
+        android:id="@+id/bt4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Router 获取Api接口自定义实现" />
 
-	<Button
-		android:id="@+id/bt32"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Api接口null Throw Error" />
+    <Button
+        android:id="@+id/bt5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Router Api接口null Throw Error" />
 
 </LinearLayout>

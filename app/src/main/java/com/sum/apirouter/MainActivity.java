@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.sum.apirouter.api.InterA;
+import com.example.module_base_lib.api.IHttpApi;
 import com.sum.router.api.Router;
 
 
@@ -17,12 +17,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.tv1).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bt1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Class router = Router.getInstance().findClassByRouter("/m5119/A3");
-
+//                Class router = Router.getInstance().findClassByRouter("/base/http");
+                Class router = Router.getInstance().findClassByRouter("/login/main");
                 if (router == null) {
                     return;
                 }
@@ -30,10 +29,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.bt1).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bt2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Class shop = Router.getInstance().findClassByRouter("/shop/main");
+                Class shop = Router.getInstance().findClassByRouter("/login/main");
+//                Class shop = Router.getInstance().findClassByRouter("/shop/main");
+                if (shop == null) {
+                    return;
+                }
                 Intent intent = new Intent(MainActivity.this, shop);
                 startActivity(intent);
             }
@@ -42,31 +45,28 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.bt3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                test3();
-            }
-        });
 
-        findViewById(R.id.bt31).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InterA interA = Router.getInstance().findApiImpl("/m960x/A2");
-                interA.fun1();
-            }
-        });
-
-        findViewById(R.id.bt32).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InterA interA = Router.getInstance().findApiImpl("/m9601x/A33");
-                if (interA != null) {
-                    interA.fun1();
+                //调用公共模块的接口功能
+                IHttpApi apiImpl = Router.getInstance().findApiImpl(IHttpApi.class);
+                if (apiImpl == null) {
+                    return;
                 }
+                apiImpl.post("hello post");
+
+            }
+        });
+
+        findViewById(R.id.bt4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        findViewById(R.id.bt5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
     }
 
-    private void test3() {
-        InterA interA = Router.getInstance().findApiImpl("/m5119/A1");
-        interA.fun1();
-    }
 }
