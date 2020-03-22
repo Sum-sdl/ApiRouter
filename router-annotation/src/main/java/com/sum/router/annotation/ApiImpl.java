@@ -6,13 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 给接口定义实现类
+ * 给接口定义默认实现类
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
 public @interface ApiImpl {
     /**
-     * @return 类的唯一标识
+     * @return 接口实现类的列表
      */
-    String value();
+    Class value();
 }

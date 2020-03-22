@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.module_base_lib.api.IHttpApi;
 import com.sum.router.api.Router;
 
 
@@ -47,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //调用公共模块的接口功能
-                IHttpApi apiImpl = Router.getInstance().findApiImpl(IHttpApi.class);
-                if (apiImpl == null) {
-                    return;
-                }
-                apiImpl.post("hello post");
+//                IHttpApi apiImpl = Router.getInstance().findApiImpl(IHttpApi.class);
+//                if (apiImpl == null) {
+//                    return;
+//                }
+//                apiImpl.post("hello post");
 
             }
         });

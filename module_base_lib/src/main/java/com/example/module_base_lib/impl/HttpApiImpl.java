@@ -3,10 +3,12 @@ package com.example.module_base_lib.impl;
 import android.util.Log;
 
 import com.example.module_base_lib.api.IHttpApi;
+import com.sum.router.annotation.ApiImpl;
 
 /**
  * Created by sdl on 2020/3/21
  */
+@ApiImpl
 class HttpApiImpl implements IHttpApi {
 
     @Override

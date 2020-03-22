@@ -55,8 +55,8 @@ dependencies {
 
 
     //其他模块
-    implementation project(':module_base_lib')
-    implementation project(':moudule_login')
+//    implementation project(':module_base_lib')
+//    implementation project(':module_login')
 
     //注解
     implementation project(':router-api')
