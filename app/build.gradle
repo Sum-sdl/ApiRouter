@@ -1,13 +1,19 @@
 apply plugin: 'com.android.application'
 
+
+//这里可以定义变量，也可以不定义变量
+def app_android = this.rootProject.ext.app_android
+
 android {
-    compileSdkVersion 28
+
+    compileSdkVersion app_android.compileSdkVersion
+
     defaultConfig {
-        applicationId "com.sum.apirouter"
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        applicationId app_android.applicationId
+        minSdkVersion app_android.minSdkVersion
+        targetSdkVersion app_android.targetSdkVersion
+        versionCode app_android.versionCode
+        versionName app_android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -32,11 +38,21 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //直接引用
+    implementation app_impl.appcompat
+    implementation app_impl.constraint
+    testImplementation app_impl.junit
+    androidTestImplementation app_impl.runner
+    androidTestImplementation app_impl.espresso
+
+    //动态引用
+//    app_impl.each {
+//        k,v ->
+//            implementation v
+//            println "k=${k},v=${v}"
+//    }
+
 
     //其他模块
     implementation project(':module_base_lib')
